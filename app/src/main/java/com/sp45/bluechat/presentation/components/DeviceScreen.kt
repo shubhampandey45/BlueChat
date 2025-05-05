@@ -22,18 +22,19 @@ import com.sp45.bluechat.presentation.BluetoothUiState
 @Composable
 fun DeviceScreen(
     state: BluetoothUiState,
-    onStartScan: ()-> Unit,
-    onStopScan: ()-> Unit,
-    modifier: Modifier = Modifier
+    onStartScan: () -> Unit,
+    onStopScan: () -> Unit,
+    onStartServer: () -> Unit,
+    onDeviceClick: (BluetoothDevice) -> Unit
 ) {
     Column(
         modifier = Modifier
             .fillMaxSize()
     ) {
         BluetoothDeviceList(
-            pairedDevices = state.pairedDevice,
+            pairedDevices = state.pairedDevices,
             scannedDevices = state.scannedDevices,
-            onClick = {},
+            onClick = onDeviceClick,
             modifier = Modifier
                 .fillMaxWidth()
                 .weight(1f)
@@ -43,14 +44,15 @@ fun DeviceScreen(
             horizontalArrangement = Arrangement.SpaceAround
         ) {
             Button(onClick = onStartScan) {
-                Text("Start Scan")
+                Text(text = "Start scan")
             }
             Button(onClick = onStopScan) {
-                Text("Stop Scan")
+                Text(text = "Stop scan")
             }
-
+            Button(onClick = onStartServer) {
+                Text(text = "Start server")
+            }
         }
-
     }
 }
 
@@ -60,11 +62,11 @@ fun BluetoothDeviceList(
     scannedDevices: List<BluetoothDevice>,
     onClick: (BluetoothDevice) -> Unit,
     modifier: Modifier = Modifier
-){
+) {
     LazyColumn(
-        modifier = Modifier
+        modifier = modifier
     ) {
-        item{
+        item {
             Text(
                 text = "Paired Devices",
                 fontWeight = FontWeight.Bold,
@@ -72,16 +74,17 @@ fun BluetoothDeviceList(
                 modifier = Modifier.padding(16.dp)
             )
         }
-        items(pairedDevices){ device->
+        items(pairedDevices) { device ->
             Text(
-                text = device.name?:"(No name)",
+                text = device.name ?: "(No name)",
                 modifier = Modifier
                     .fillMaxWidth()
-                    .clickable{ onClick(device) }
+                    .clickable { onClick(device) }
                     .padding(16.dp)
             )
         }
-        item{
+
+        item {
             Text(
                 text = "Scanned Devices",
                 fontWeight = FontWeight.Bold,
@@ -89,15 +92,14 @@ fun BluetoothDeviceList(
                 modifier = Modifier.padding(16.dp)
             )
         }
-        items(scannedDevices){ device->
+        items(scannedDevices) { device ->
             Text(
-                text = device.name?:"(No name)",
+                text = device.name ?: "(No name)",
                 modifier = Modifier
                     .fillMaxWidth()
-                    .clickable{ onClick(device) }
+                    .clickable { onClick(device) }
                     .padding(16.dp)
             )
         }
-
     }
 }

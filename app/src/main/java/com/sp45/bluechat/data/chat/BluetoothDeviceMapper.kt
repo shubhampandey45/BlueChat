@@ -6,7 +6,7 @@ import com.sp45.bluechat.domain.chat.BluetoothDeviceDomain
 
 
 @SuppressLint("MissingPermission")
-fun BluetoothDevice.toBluetoothDeviceDomain(): BluetoothDeviceDomain{
+fun BluetoothDevice.toBluetoothDeviceDomain(): BluetoothDeviceDomain {
     return BluetoothDeviceDomain(
         name = name,
         address = address
